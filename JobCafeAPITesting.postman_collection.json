@@ -1,0 +1,1220 @@
+{
+	"info": {
+		"_postman_id": "cb073162-bc93-4435-8456-0b1236ce47a9",
+		"name": "JobCafeAPITesting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37308231"
+	},
+	"item": [
+		{
+			"name": "Positive",
+			"item": [
+				{
+					"name": "Create Manager job in Poland",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var id = pm.response.json().id;",
+									"pm.globals.set(\"job_id\", id)",
+									"",
+									"var jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"Job position test\", function(){",
+									"pm.expect(jsonResponse.position).to.eq(\"cook\");",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\"position\" : \"cook\",\n\n\"company\" : \"Capgemini\",\n\n\"location\" : \"Lublin,Poland\",\n\n\"seniority\" : \"middle\",\n\n\"link\" : \"www.capgemini.com\",\n\n\"description\" : \"test\",\n\n\"time\" : \"two hours ago\",\n\n\"salary\" : \"38000\",\n\n\"date\" : \"2024-09-05T12:00:00\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.jobka.net:8081/jobs/create?key=adminadmin",
+							"protocol": "http",
+							"host": [
+								"api",
+								"jobka",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs",
+								"create"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "adminadmin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get job by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"var jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"Job id test\", function(){",
+									"    pm.expect(jsonResponse.content[0].id).to.include(\"63b4407c74f47208c4446fd9\");",
+									"})",
+									"pm.test(\"Job seniority test\", function(){",
+									"    pm.expect(jsonResponse.content[0].seniority).to.include(\"junior/mid\");",
+									"})",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?id=63b4407c74f47208c4446fd9",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "63b4407c74f47208c4446fd9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all jobs in Canada",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test(\"Job position test\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Full Stack Java Developer\")",
+									"})",
+									"",
+									"pm.test(\"Job company test\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Rogers communications inc.\")",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?location=Canada",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Canada"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all jobs in Toronto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test(\"Job position test\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"QA\")",
+									"})",
+									"",
+									"pm.test(\"Job seniority test\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"junior\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?location=Toronto",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Toronto"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all jobs in Calgary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test(\"Job position test\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Project Manager\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?location=Calgary",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Calgary"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get QA position",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?position=QA",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "position",
+									"value": "QA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get DevOps position",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"    pm.response.to.have.status(200)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?position=DevOps",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "position",
+									"value": "DevOps"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?company=all",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "company",
+									"value": "all"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Google Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(200);",
+									"})",
+									"",
+									"var jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"position test\", function(){",
+									"pm.expect(jsonResponse.content[0].position).to.include(\"Web UI Lead Product Manager\")",
+									"})",
+									"",
+									"pm.test(\"position test\", function(){",
+									"pm.expect(jsonResponse.content[0].company).to.include(\"Google\")",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?company=Google",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "company",
+									"value": "Google"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Apple Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"var jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"company test\", function(){",
+									"    pm.expect(jsonResponse.content[0].company).to.include(\"Apple\")",
+									"})",
+									"",
+									"pm.test(\"location test\", function(){",
+									"    pm.expect(jsonResponse.content[0].location).to.include(\"Austin, TX, USA\")",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?company=Apple",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "company",
+									"value": "Apple"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get jobs by date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"var jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"Job company test\", function(){",
+									"    pm.expect(jsonResponse.content[0].company).to.include(\"Nicolas Inc\");",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?date=2021-07-11",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2021-07-11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete job by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.jobka.net:8081/jobs/66898343ffb0363861bec273?key=adminadmin",
+							"protocol": "http",
+							"host": [
+								"api",
+								"jobka",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs",
+								"66898343ffb0363861bec273"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "adminadmin"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Negative",
+			"item": [
+				{
+					"name": "Create QA job in Ukraine-missing info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(500);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\"position\" : \"QA\",\n\n\"company\" : \"Capgemini\",\n\n\"location\" : \"Dnipro,Ukraine\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.jobka.net:8081/jobs/create?key=adminadmin",
+							"protocol": "http",
+							"host": [
+								"api",
+								"jobka",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs",
+								"create"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "adminadmin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create QA job in Ukraine-missing key info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(400);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\"position\" : \"QA\",\n\n\"company\" : \"Capgemini\",\n\n\"location\" : \"Dnipro,Ukraine\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.jobka.net:8081/jobs/create?",
+							"protocol": "http",
+							"host": [
+								"api",
+								"jobka",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs",
+								"create"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create duplicate job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(409);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\"position\" : \"QA\",\n\n\"company\" : \"Capgemini\",\n\n\"location\" : \"Lublin,Poland\",\n\n\"seniority\" : \"middle\",\n\n\"link\" : \"www.capgemini.com\",\n\n\"description\" : \"test\",\n\n\"time\" : \"two hours ago\",\n\n\"salary\" : \"56000k\",\n\n\"date\" : \"2024-09-05T12:00:00\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.jobka.net:8081/jobs/create?key=adminadmin",
+							"protocol": "http",
+							"host": [
+								"api",
+								"jobka",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs",
+								"create"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "adminadmin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get job by invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"position\" : \"DevOps\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?id=654286613f7d791fb3e7b20",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "654286613f7d791fb3e7b20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all jobs in Ukraine",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?location=Ukraine",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Ukraine"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all jobs in Canda - invalid country name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?location=Canda",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Canda"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all jobs in Canada - invalid url",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.job.net:8081/jobs?location=Canada",
+							"protocol": "http",
+							"host": [
+								"api",
+								"job",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Canada"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all jobs in Toroto - negative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?location=Toroto",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Toroto"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get judge position",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?position=judge",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "position",
+									"value": "judge"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Radiologist position",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?position=radiologist",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "position",
+									"value": "radiologist"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get HardRock Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?company=HardRock",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "company",
+									"value": "HardRock"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get PinUpGlobal Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?company=PinUpGlobal",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "company",
+									"value": "PinUpGlobal"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get jobs by future date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(400);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{JobCafe_URL}}/jobs?date=2026-08-11",
+							"host": [
+								"{{JobCafe_URL}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2026-08-11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete job missing id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(405);",
+									"})",
+									"",
+									"var jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"error test\", function(){",
+									"pm.expect(jsonResponse.error).to.eq(\"Method Not Allowed\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"position\" : \"DevOps\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.jobka.net:8081/jobs/?key=adminadmin",
+							"protocol": "http",
+							"host": [
+								"api",
+								"jobka",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs",
+								""
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "adminadmin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete job missing admin key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code test\", function(){",
+									"pm.response.to.have.status(400);",
+									"})",
+									"",
+									"var jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"error test\", function(){",
+									"pm.expect(jsonResponse.error).to.eq(\"Bad Request\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"position\" : \"DevOps\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.jobka.net:8081/jobs/66898343ffb0363861bec273",
+							"protocol": "http",
+							"host": [
+								"api",
+								"jobka",
+								"net"
+							],
+							"port": "8081",
+							"path": [
+								"jobs",
+								"66898343ffb0363861bec273"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
